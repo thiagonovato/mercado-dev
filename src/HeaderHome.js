@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
 import logo from './logo.png'
 
 // Functional Stateless Component
@@ -10,9 +12,9 @@ const HeaderHome = (props) => {
                     <img src={logo} className="App-logo" alt="logo" width="200" />
                 </h1>
                 <p className="text-center">
-                    <a className="btn btn-anuncie btn-lg" to="/novo-anuncio" role="button">
+                    <Link className="btn btn-anuncie btn-lg" to="/novo-anuncio" role="button">
                         Anuncie Grátis &raquo;
-                </a>
+                </Link>
                 </p>
             </div>
         </div>
