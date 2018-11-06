@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import base, { storage } from './base'
+import { Redirect } from 'react-router-dom'
 
 import HeaderInterno from './HeaderInterno'
 
@@ -7,10 +8,17 @@ class NovoAnuncio extends Component {
     constructor(props) {
         super(props)
 
+        this.state = {
+            sucess: false
+        }
+
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleSubmit(e) {
+        // Passar o THIS para o modo Hadouken
+        let componenteCorrente = this
+
         const file = this.foto.files[0]
         const { name, size } = file
         const ref = storage.ref(name)
@@ -21,6 +29,7 @@ class NovoAnuncio extends Component {
             descricao: this.descricao.value,
             preco: this.preco.value,
             telefone: this.telefone.value,
+            categoria: this.categoria.value,
             vendedor: this.vendedor.value
         }
 
@@ -33,16 +42,14 @@ class NovoAnuncio extends Component {
             uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
                 const novoAnuncioFoto = ({
                     // usando destructuring assignment, pegando o novoAnuncio e incrementando o atributo FOTO
-                    // o objetivo é que, usando img.metadata.downloadURLs[0] ficou obsoleto.
+                    // o objetivo é que, usando img.metadata.downloadURLs[0] ficou obsoleto e não funciona.
                     // A documentação do Firebase pede para usar desta forma
                     ...novoAnuncio, foto: downloadURL
                 })
                 base.push('anuncios', {
                     data: novoAnuncioFoto
-                }, (err) => {
-                    if (err) {
-                    } else {
-                    }
+                }).then(() => {
+                    componenteCorrente.setState({ sucess: true })
                 })
             });
         })
@@ -52,10 +59,20 @@ class NovoAnuncio extends Component {
     render() {
         return (
             <div>
+                {this.state.sucess && <Redirect to='/' />}
                 <HeaderInterno />
                 <div className='container' style={{ padding: '120px' }}>
                     <h1>Novo Anúncio</h1>
                     <form onSubmit={this.handleSubmit}>
+                        <div className='form-group'>
+                            <label htmlFor='categorias'>Categoria</label>
+                            <select ref={(ref) => this.categoria = ref} className='form-control'>
+                                <option defaultValue>-- Selecione --</option>
+                                {
+                                    this.props.categorias.map(cat => <option key={cat.url} value={cat.url}>{cat.categoria}</option>)
+                                }
+                            </select>
+                        </div>
                         <div className='form-group'>
                             <label htmlFor='nome'>Nome</label>
                             <input type='text' className='form-control' id='nome' placeholder='Nome' ref={(ref) => this.nome = ref} />

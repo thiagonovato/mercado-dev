@@ -1,6 +1,7 @@
 // LIBS
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import base from './base'
 
 // COMPONENTES
 
@@ -10,12 +11,25 @@ import NovoAnuncio from './NovoAnuncio'
 
 class App extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      categorias: []
+    }
+
+    base.bindToState('categorias', {
+      context: this,
+      state: 'categorias'
+    })
+  }
+
   render() {
     return (
       <Router>
         <div className="App">
-          <Route exact path='/' component={Home} />
-          <Route exact path='/novo-anuncio' component={NovoAnuncio} />
+          <Route exact path='/' render={() => <Home categorias={this.state.categorias} />} />
+          <Route exact path='/novo-anuncio' render={() => <NovoAnuncio categorias={this.state.categorias} />} />
           <Footer />
         </div>
       </Router>
