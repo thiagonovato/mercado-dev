@@ -8,6 +8,7 @@ import base from './base'
 import Footer from './Footer'
 import Home from './Home'
 import NovoAnuncio from './NovoAnuncio'
+import Categorias from './Categorias'
 
 class App extends Component {
 
@@ -29,7 +30,8 @@ class App extends Component {
       <Router>
         <div className="App">
           <Route exact path='/' render={() => <Home categorias={this.state.categorias} />} />
-          <Route exact path='/novo-anuncio' render={() => <NovoAnuncio categorias={this.state.categorias} />} />
+          <Route path='/novo-anuncio' render={() => <NovoAnuncio categorias={this.state.categorias} />} />
+          <Route path='/categorias' render={() => <Categorias categorias={this.state.categorias} />} />
           <Footer />
         </div>
       </Router>

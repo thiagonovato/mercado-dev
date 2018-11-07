@@ -1,10 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-const AnuncioHome = ({ anuncio }) => {
+const AnuncioHome = ({ id, anuncio }) => {
     return (
         <div className="col-lg-4 col-md-6 mb-4">
             <div className="card h-100">
-                <a href="#"><img className="card-img-top" src={anuncio.foto} alt="Foto" height="200px" width="140px" /></a>
+                <Link to={'/categorias/' + anuncio.categoria + '/' + id}><img className="card-img-top" src={anuncio.foto} alt="Foto" height="140px" width="200px" /></Link>
                 <div className="card-body">
                     <h4 className="card-title">
                         <a to={`/anuncios/ver/`}>{anuncio.nome}</a>
@@ -13,7 +14,7 @@ const AnuncioHome = ({ anuncio }) => {
                     <p className="card-text">{anuncio.descricao}</p>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
